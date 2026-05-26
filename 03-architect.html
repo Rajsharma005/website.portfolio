@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Raj Sharma - The Architect</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Meet Raj Sharma - AI Business Analyst with MBA in Business Analytics from LPU, national athlete background, and expertise in autonomous systems design.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols_Outlined:wght@300;400;500" rel="stylesheet">
+    
+    <style>
+        /* Base Reset & Global Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            color: #E5E5E5;
+            line-height: 1.6;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+        
+        h1, h2, h3, h4 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; color: #FFFFFF; }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.25rem 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 251, 251, 0.05);
+        }
+        
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #00FBFB;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover { 
+            color: #00E5E5; 
+            text-shadow: 0 0 20px rgba(0, 251, 251, 0.4);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: #9CA3AF;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-links a.active {
+            color: #00FBFB;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00FBFB;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover { color: #00FBFB; }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .nav-cta {
+            background: #00FBFB;
+            color: #0A0A0A;
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .nav-cta:hover {
+            background: #00E5E5;
+            box-shadow: 0 0 20px rgba(0, 251, 251, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Content Section */
+        section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .cyan-accent { color: #00FBFB !important; }
+        
+        .workflow-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+        }
+        
+        .workflow-node {
+            border-left: 2px solid rgba(0, 251, 251, 0.3);
+            padding-left: 1.5rem;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        
+        .workflow-node.reveal {
+            animation: slideInLeft 0.6s ease forwards;
+        }
+        
+        .node-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(0, 251, 251, 0.2);
+            transform: translateY(-4px);
+        }
+        
+        .stat-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #00FBFB;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+            margin-top: 0.25rem;
+        }
+        
+        .skill-bar-wrapper {
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9375rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-track {
+            height: 8px;
+            background: #1A1A1A;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00FBFB 0%, #00E5E5 100%);
+            transition: width 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 0;
+        }
+        
+        .skill-progress.animate {
+            width: var(--progress);
+        }
+        
+        /* Track Record Grid */
+        .track-record-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .record-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .record-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(0, 251, 251, 0.2);
+            transform: translateY(-4px);
+        }
+        
+        .record-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .record-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .record-detail {
+            color: #9CA3AF;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            section { padding: 6rem 1.5rem 3rem; }
+            .glass-panel { padding: 2rem; }
+            .workflow-container { grid-template-columns: 1fr; }
+            .stats-matrix { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+    
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="01-home.html" class="logo">RAJ SHARMA</a>
+            <div class="nav-links">
+                <a href="01-home.html">Home</a>
+                <a href="02-projects.html">Projects</a>
+                <a href="03-architect.html" class="active">About</a>
+                <a href="04-blog.html">Blog</a>
+                <a href="05-pricing.html">Pricing</a>
+                <a href="06-contact.html" class="nav-cta">Let's Talk</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Philosophy Section -->
+    <section>
+        <div class="glass-panel">
+            <div style="margin-bottom: 4.5rem;">
+                <p class="mono cyan-accent" style="margin-bottom: 1rem;">THE SYSTEMS PHILOSOPHY</p>
+                <h2 style="font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; letter-spacing: -0.03em;">
+                    The Autonomic System.<br/>
+                    <span class="cyan-accent">You define the target, we run the logic.</span>
+                </h2>
+                <p style="font-size: 1.1875rem; color: #9CA3AF; max-width: 52rem; line-height: 1.7;">
+                    Most analytics pipelines stop at generating visual graphs. I engineer autonomous logic blocks that take actions based on those metrics. By treating administrative architectures like an autonomic nervous system, critical tasks execute continuously in the background — eliminating human manual latencies entirely.
+                </p>
+            </div>
+            
+            <!-- Workflow Nodes -->
+            <h3 class="mono cyan-accent" style="font-size: 0.875rem; margin-bottom: 1.5rem;">TRANSLATED OPERATIONAL INTELLIGENCE</h3>
+            <div class="workflow-container">
+                <div class="workflow-node">
+                    <div class="node-icon">🎛️</div>
+                    <h4 class="cyan-accent" style="font-size: 1.25rem; margin-bottom: 0.75rem; font-weight: 600;">The Command Center</h4>
+                    <p style="color: #9CA3AF; font-size: 0.9375rem; line-height: 1.6;">
+                        Consolidates highly fragmented cross-channel performance layers (bookings, supply chains, ledger parameters) into a singular local screen view. Removes cognitive overhead via dynamic algorithmic auto-summaries.
+                    </p>
+                </div>
+                
+                <div class="workflow-node">
+                    <div class="node-icon">🧠</div>
+                    <h4 class="cyan-accent" style="font-size: 1.25rem; margin-bottom: 0.75rem; font-weight: 600;">Smart Institutional Memory</h4>
+                    <p style="color: #9CA3AF; font-size: 0.9375rem; line-height: 1.6;">
+                        Executes absolute retrieval-augmented indexing over past operational histories, operational guidelines, and user preferences. Information is contextualized and ready for sub-second system execution loops.
+                    </p>
+                </div>
+                
+                <div class="workflow-node">
+                    <div class="node-icon">⚡</div>
+                    <h4 class="cyan-accent" style="font-size: 1.25rem; margin-bottom: 0.75rem; font-weight: 600;">Instant Remediation Actions</h4>
+                    <p style="color: #9CA3AF; font-size: 0.9375rem; line-height: 1.6;">
+                        Bypasses outdated static notification queues. Critical threshold violations automatically trigger closed-loop background reconciliation states while instantly logging events over encrypted messenger webhooks.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Metrics -->
+            <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; padding: 2.5rem; margin-top: 4rem;">
+                <h4 style="font-size: 1.125rem; text-align: center; margin-bottom: 2rem;" class="mono">SYSTEM CAPACITY METRICS</h4>
+                <div class="stats-matrix">
+                    <div class="stat-box">
+                        <p class="stat-value">100+</p>
+                        <p class="stat-label">Manual Hours Eliminated Per Engine</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-value">24/7</p>
+                        <p class="stat-label">Autonomous Daemon Processing Cycles</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-value">₹0</p>
+                        <p class="stat-label">Human Labor Overhead on Exception Loops</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Personal Profile Section -->
+        <div class="glass-panel" style="animation-delay: 0.2s;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start;">
+                <div>
+                    <h3 style="font-size: 2rem; margin-bottom: 1.5rem; font-weight: 600;">The Profile // Raj Sharma</h3>
+                    <p style="color: #9CA3AF; font-size: 1.0625rem; line-height: 1.75; margin-bottom: 1.5rem;">
+                        Holds a Master of Business Administration (MBA) in Business Analytics from Lovely Professional University (7.71 CGPA, Academic Convocation Concluded Jan 2026) alongside a foundational Diploma in Hotel Management from ASMS. Past core analytical tenures executed across data analytics environments at Xcelerate and Teachnook platforms.
+                    </p>
+                    <p style="color: #9CA3AF; font-size: 1.0625rem; line-height: 1.75; margin-bottom: 1.5rem;">
+                        Former national-level competitive ball badminton player 🏸 and active swimmer 🏊. Represented Uttar Pradesh at 34th Sub-Junior National Ball Badminton Championship (2014). CBSE East Zone Swimming champion (1st Place Merit, 4×100m Freestyle/Medley Relay, Ranchi 2016). Merges elite physical coordination thresholds with systems tracking rigor.
+                    </p>
+                    <p style="color: #888; font-size: 0.95rem; line-height: 1.7;">
+                        When not coding: Trekking hills + chasing sunsets 📸 (Instagram: @_curioussage_). Specializes in analytical processing of localized UP land record metrics (Bhulekh review stacks) and packages travel photography assets capturing remote mountain trails across Tosh and Sosan expeditions in Himachal Pradesh.
+                    </p>
+                    <p class="mono cyan-accent" style="margin-top: 1.5rem; font-size: 0.8125rem;">
+                        📍 GREATER NOIDA BASE // BAREILLY REGIONAL CENTER // UP, INDIA
+                    </p>
+                </div>
+                
+                <!-- Skills Matrix -->
+                <div>
+                    <h4 class="mono cyan-accent" style="font-size: 0.8125rem; margin-bottom: 1.5rem;">CALIBRATED SKILLS MATRIX</h4>
+                    
+                    <div class="skill-bar-wrapper">
+                        <div class="skill-info">
+                            <span>Power BI & Excel (Advanced)</span>
+                            <span class="cyan-accent">🎯 95%</span>
+                        </div>
+                        <div class="skill-track"><div class="skill-progress" style="--progress: 95%;"></div></div>
+                    </div>
+                    
+                    <div class="skill-bar-wrapper">
+                        <div class="skill-info">
+                            <span>Python & SQL</span>
+                            <span class="cyan-accent">🔥 70%</span>
+                        </div>
+                        <div class="skill-track"><div class="skill-progress" style="--progress: 70%;"></div></div>
+                    </div>
+                    
+                    <div class="skill-bar-wrapper">
+                        <div class="skill-info">
+                            <span>Agentic System Design (Ollama, n8n)</span>
+                            <span class="cyan-accent">⚡ 85%</span>
+                        </div>
+                        <div class="skill-track"><div class="skill-progress" style="--progress: 85%;"></div></div>
+                    </div>
+                    
+                    <div class="skill-bar-wrapper">
+                        <div class="skill-info">
+                            <span>Firebase & Backend APIs</span>
+                            <span class="cyan-accent">💪 75%</span>
+                        </div>
+                        <div class="skill-track"><div class="skill-progress" style="--progress: 75%;"></div></div>
+                    </div>
+                    
+                    <div class="skill-bar-wrapper">
+                        <div class="skill-info">
+                            <span>Prompt Engineering (Claude/ChatGPT)</span>
+                            <span class="cyan-accent">🚀 90%</span>
+                        </div>
+                        <div class="skill-track"><div class="skill-progress" style="--progress: 90%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track Record Section -->
+        <div class="glass-panel" style="animation-delay: 0.4s;">
+            <h3 class="mono cyan-accent" style="font-size: 0.875rem; margin-bottom: 2rem; text-align: center;">TRACK RECORD // CREDENTIALS & ACHIEVEMENTS</h3>
+            
+            <div class="track-record-grid">
+                <div class="record-card">
+                    <div class="record-icon">🎓</div>
+                    <h4 class="record-title">Education</h4>
+                    <p class="record-detail">
+                        MBA Business Analytics (LPU, 7.71 CGPA)<br/>
+                        Diploma Hotel Management (ASMS)<br/>
+                        B.Com Honours
+                    </p>
+                </div>
+                
+                <div class="record-card">
+                    <div class="record-icon">📜</div>
+                    <h4 class="record-title">15+ Certifications</h4>
+                    <p class="record-detail">
+                        Deloitte Analytics (Forage)<br/>
+                        Tata Data Analytics ×2 (Forage)<br/>
+                        Power BI, SQL, Python, AI Foundations
+                    </p>
+                </div>
+                
+                <div class="record-card">
+                    <div class="record-icon">🏆</div>
+                    <h4 class="record-title">National Athlete</h4>
+                    <p class="record-detail">
+                        34th Sub-Junior National Ball Badminton (UP Team)<br/>
+                        CBSE East Zone Swimming 1st Merit<br/>
+                        UP State Aquatic Championships
+                    </p>
+                </div>
+                
+                <div class="record-card">
+                    <div class="record-icon">💼</div>
+                    <h4 class="record-title">Work Experience</h4>
+                    <p class="record-detail">
+                        Xcelerate - Data Analyst Intern<br/>
+                        Teachnook - Digital Marketing Intern<br/>
+                        Crowne Plaza (IHG) - Hospitality Training
+                    </p>
+                </div>
+                
+                <div class="record-card">
+                    <div class="record-icon">🌱</div>
+                    <h4 class="record-title">Unique Skills</h4>
+                    <p class="record-detail">
+                        Hydroponics Certified (Kryzen Biotech)<br/>
+                        Scouts & Guides (UP State Level)<br/>
+                        Travel Photography (@_curioussage_)
+                    </p>
+                </div>
+                
+                <div class="record-card">
+                    <div class="record-icon">🏅</div>
+                    <h4 class="record-title">Forage Badges</h4>
+                    <p class="record-detail">
+                        Tata Analytics ✅<br/>
+                        Deloitte Analytics ✅<br/>
+                        5 More Planned (KPMG, BCG, PwC, Quantium, Accenture)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Particle Canvas Script -->
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [], mouse = { x: null, y: null };
+        
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 35 : 75;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    s: Math.random() * 1.3 + 0.4,
+                    sx: Math.random() * 0.3 - 0.15,
+                    sy: Math.random() * 0.3 - 0.15
+                });
+            }
+        }
+        
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach((p, i) => {
+                p.x += p.sx; p.y += p.sy;
+                if (p.x > w || p.x < 0) p.sx *= -1;
+                if (p.y > h || p.y < 0) p.sy *= -1;
+                
+                if (mouse.x && mouse.y) {
+                    let dx = mouse.x - p.x, dy = mouse.y - p.y;
+                    let d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 130) { p.x -= dx * 0.003; p.y -= dy * 0.003; }
+                }
+                
+                ctx.fillStyle = 'rgba(0, 251, 251, 0.35)';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+                ctx.fill();
+                
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx2 = p.x - particles[j].x, dy2 = p.y - particles[j].y;
+                    let d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                    if (d2 < 115) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 251, 251, ${0.12 - d2 / 950})`;
+                        ctx.lineWidth = 0.4;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(draw);
+        }
+        
+        window.addEventListener('resize', init);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        
+        init();
+        draw();
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Workflow nodes animation
+        const workflowObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('reveal');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        document.querySelectorAll('.workflow-node').forEach(node => {
+            workflowObserver.observe(node);
+        });
+        
+        // Skills bars animation
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progress = entry.target.querySelector('.skill-progress');
+                    if (progress) {
+                        setTimeout(() => {
+                            progress.classList.add('animate');
+                        }, 300);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.skill-bar-wrapper').forEach(skill => {
+            skillsObserver.observe(skill);
+        });
+    </script>
+</body>
+</html>

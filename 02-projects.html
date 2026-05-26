@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Raj Sharma - AI Business Analyst</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Portfolio of production-grade AI systems and analytics projects by Raj Sharma - AI Hotel Agency, ReportAI BI Engine, Enterprise Dashboards, and more.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500" rel="stylesheet">
+    
+    <style>
+        /* Base Reset & Global Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            color: #E5E5E5;
+            line-height: 1.6;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+        
+        h1, h2, h3, h4 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; color: #FFFFFF; }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.25rem 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 251, 251, 0.05);
+        }
+        
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #00FBFB;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover { 
+            color: #00E5E5; 
+            text-shadow: 0 0 20px rgba(0, 251, 251, 0.4);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: #9CA3AF;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-links a.active {
+            color: #00FBFB;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00FBFB;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover { color: #00FBFB; }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .nav-cta {
+            background: #00FBFB;
+            color: #0A0A0A;
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .nav-cta:hover {
+            background: #00E5E5;
+            box-shadow: 0 0 20px rgba(0, 251, 251, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Page Header */
+        .page-header {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10rem 2rem 4rem;
+            text-align: center;
+        }
+        
+        .page-badge {
+            color: #00FBFB;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: fadeInDown 0.6s ease;
+        }
+        
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            animation: fadeInUp 0.6s ease 0.2s backwards;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: #9CA3AF;
+            max-width: 45rem;
+            margin: 0 auto;
+            line-height: 1.7;
+            animation: fadeInUp 0.6s ease 0.4s backwards;
+        }
+        
+        /* Projects Grid Section */
+        .projects-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto 8rem;
+            padding: 0 2rem;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .bento-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .bento-card.reveal {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .bento-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(0, 251, 251, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(0, 251, 251, 0.15);
+        }
+        
+        .col-12 { grid-column: span 12; }
+        .col-8 { grid-column: span 8; }
+        .col-6 { grid-column: span 6; }
+        .col-4 { grid-column: span 4; }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            color: #00FBFB;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .card-description {
+            color: #9CA3AF;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chip-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        
+        .chip {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.04);
+            color: #9CA3AF;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        
+        .chip.active {
+            background: rgba(0, 251, 251, 0.08);
+            color: #00FBFB;
+            border-color: rgba(0, 251, 251, 0.15);
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links { gap: 1.5rem; }
+            .nav-links a { font-size: 0.8rem; }
+            .page-header { padding: 8rem 1.5rem 3rem; }
+            .bento-card { 
+                grid-column: span 12 !important; 
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+    
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="01-home.html" class="logo">RAJ SHARMA</a>
+            <div class="nav-links">
+                <a href="01-home.html">Home</a>
+                <a href="02-projects.html" class="active">Projects</a>
+                <a href="03-architect.html">About</a>
+                <a href="04-blog.html">Blog</a>
+                <a href="05-pricing.html">Pricing</a>
+                <a href="06-contact.html" class="nav-cta">Let's Talk</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Page Header -->
+    <div class="page-header">
+        <span class="page-badge">💼 PRODUCTION PORTFOLIO</span>
+        <h1 class="page-title">
+            Systems That <span style="color: #00FBFB;">Actually Work</span>
+        </h1>
+        <p class="page-subtitle">
+            Not mock projects or tutorials. Real autonomous systems processing live business operations across hospitality, analytics, and AI orchestration.
+        </p>
+    </div>
+    
+    <!-- Projects Grid Section -->
+    <section class="projects-section">
+        <div class="bento-grid">
+            
+            <!-- Project 1: AI Hotel Agency (Featured, Full Width) -->
+            <div class="bento-card col-12" style="background: rgba(0, 251, 251, 0.01); border-color: rgba(0, 251, 251, 0.15);">
+                <div>
+                    <div class="card-header">
+                        <span class="mono" style="color: #00FBFB;">🔥 FLAGSHIP // LIVE PRODUCTION</span>
+                        <span class="material-symbols-outlined card-icon">hotel</span>
+                    </div>
+                    <h3 class="card-title" style="color: #00FBFB; font-size: 2rem;">AI Hotel Agency</h3>
+                    <p class="card-description" style="font-size: 1.0625rem; max-width: 60rem;">
+                        Fully autonomous guest services orchestration engine running 24/7 across two boutique properties (24-room each) in Bareilly and Ramnagar. Claude MCP-powered agentic workflows handling: real-time booking confirmations via WhatsApp, intelligent guest memory via RAG indexing (remembers preferences, past stays, special requests), instant Telegram alerts for threshold violations (occupancy drops, payment delays), and automated check-in/checkout sequences. Zero manual intervention required. Saves 100+ hours/month in administrative overhead.
+                    </p>
+                </div>
+                <div class="chip-container">
+                    <span class="chip active">Claude MCP</span>
+                    <span class="chip active">Telegram Webhooks</span>
+                    <span class="chip active">RAG Memory System</span>
+                    <span class="chip">Firebase Backend</span>
+                    <span class="chip">WhatsApp Business API</span>
+                    <span class="chip">Real-time Alerts</span>
+                </div>
+            </div>
+            
+            <!-- Project 2: ReportAI BI Engine -->
+            <div class="bento-card col-8">
+                <div>
+                    <div class="card-header">
+                        <span class="mono" style="color: #888;">⚡ AI-NATIVE BI PLATFORM</span>
+                        <span class="material-symbols-outlined card-icon">analytics</span>
+                    </div>
+                    <h3 class="card-title">ReportAI BI Engine</h3>
+                    <p class="card-description">
+                        Local-first AI-native Business Intelligence client. Operates over an RTX 4050 accelerated environment utilizing Ollama APIs for fully enclosed on-device LLM inference. Integrates 10+ custom .skill files covering analytical frameworks: Customer Segmentation (RFM/CLV metrics), Pricing Margin Waterfalls, Supply Chain Analytics, Risk Scoring, Competitor Benchmarking, and custom structured SOP generation. Dark glassmorphism UI with React + Tailwind CSS + Chart.js stack.
+                    </p>
+                </div>
+                <div class="chip-container">
+                    <span class="chip active">Ollama Local API</span>
+                    <span class="chip">React + Tailwind</span>
+                    <span class="chip">Chart.js Visualizations</span>
+                    <span class="chip">EDA Error Engine</span>
+                    <span class="chip">10+ Analyst Skills</span>
+                </div>
+            </div>
+            
+            <!-- Project 3: SAGE HOUSE System -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-header">
+                        <span class="mono" style="color: #888;">📦 REGIONAL SYSTEM</span>
+                        <span class="material-symbols-outlined card-icon">home_work</span>
+                    </div>
+                    <h3 class="card-title">SAGE HOUSE System</h3>
+                    <p class="card-description">
+                        Localized student housing and hostel inventory engine mapped explicitly for Greater Noida high-density student residential metrics. Features detailed relational database schemas tracking occupancy lifecycles, booking workflows, and capacity allocations.
+                    </p>
+                </div>
+                <div class="chip-container">
+                    <span class="chip">Database Architecture</span>
+                    <span class="chip">SQL Ingestion</span>
+                    <span class="chip">Inventory Mapping</span>
+                </div>
+            </div>
+            
+            <!-- Project 4: Telecom Churn Prediction -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-header">
+                        <span class="mono" style="color: #888;">🎓 MBA FINAL CAPSTONE</span>
+                        <span class="material-symbols-outlined card-icon">analytics</span>
+                    </div>
+                    <h3 class="card-title">Telecom Churn Framework</h3>
+                    <p class="card-description">
+                        Machine learning lifecycle predictive deployment executed during the final year analytics tenure at LPU. Analyzes customer attrition probability matrices, identifies risk cohorts, and models retention incentives using historical data structures.
+                    </p>
+                </div>
+                <div class="chip-container">
+                    <span class="chip">Python SciKit-Learn</span>
+                    <span class="chip">Relational SQL</span>
+                    <span class="chip">Predictive Modeling</span>
+                </div>
+            </div>
+            
+            <!-- Project 5: Enterprise Analytics Stack -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-header">
+                        <span class="mono" style="color: #888;">💼 SIMULATION WORKLOADS</span>
+                        <span class="material-symbols-outlined card-icon">database</span>
+                    </div>
+                    <h3 class="card-title">Enterprise Proof-of-Work</h3>
+                    <p class="card-description">
+                        High-density operational data structures modeled across critical environments: Cetaphil strategic marketing capstones, Decathlon data acquisition funnels, Netflix content matrices, and industrial factory floor asset-downtime analytics dashboards.
+                    </p>
+                </div>
+                <div class="chip-container">
+                    <span class="chip">Power BI Advanced</span>
+                    <span class="chip">Data Transformation</span>
+                    <span class="chip">SQL Queries</span>
+                </div>
+            </div>
+            
+            <!-- Project 6: Forage Simulations -->
+            <div class="bento-card col-4">
+                <div>
+                    <div class="card-header">
+                        <span class="mono" style="color: #888;">🏆 PROFESSIONAL BADGES</span>
+                        <span class="material-symbols-outlined card-icon">badge</span>
+                    </div>
+                    <h3 class="card-title">Forage Simulations</h3>
+                    <p class="card-description">
+                        Completed job simulations for Tata Data Analytics (×2) and Deloitte Data Analytics. Roadmap includes KPMG, BCG Strategy Consulting, PwC Digital Intelligence, Quantium, and Accenture North America tracks.
+                    </p>
+                </div>
+                <div class="chip-container">
+                    <span class="chip active">Tata Completed</span>
+                    <span class="chip active">Deloitte Completed</span>
+                    <span class="chip">5 More Planned</span>
+                </div>
+            </div>
+            
+            <!-- India Market Calibration Banner -->
+            <div class="bento-card col-12" style="background: rgba(0, 251, 251, 0.01); border-color: rgba(0, 251, 251, 0.15); text-align: center; padding: 2rem;">
+                <div>
+                    <span class="mono" style="color: #00FBFB; display: block; margin-bottom: 0.75rem;">🇮🇳 MARKET ARCHITECTURE</span>
+                    <h4 style="font-size: 1.25rem; margin-bottom: 0.75rem;">Calibrated for Indian Commercial Infrastructures</h4>
+                    <p style="color: #9CA3AF; font-size: 0.9375rem; max-width: 50rem; margin: 0 auto;">
+                        Built natively to address local validation rules — structured explicitly for native ₹ currency formats, real-time GST reconciliation tracking schemas, regional UPI transaction state identification loops, and custom resource distributions matching localized Indian MSME tiers.
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    
+    <!-- Particle Canvas Script -->
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [], mouse = { x: null, y: null };
+        
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 35 : 75;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    s: Math.random() * 1.3 + 0.4,
+                    sx: Math.random() * 0.3 - 0.15,
+                    sy: Math.random() * 0.3 - 0.15
+                });
+            }
+        }
+        
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach((p, i) => {
+                p.x += p.sx; p.y += p.sy;
+                if (p.x > w || p.x < 0) p.sx *= -1;
+                if (p.y > h || p.y < 0) p.sy *= -1;
+                
+                if (mouse.x && mouse.y) {
+                    let dx = mouse.x - p.x, dy = mouse.y - p.y;
+                    let d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 130) { p.x -= dx * 0.003; p.y -= dy * 0.003; }
+                }
+                
+                ctx.fillStyle = 'rgba(0, 251, 251, 0.35)';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+                ctx.fill();
+                
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx2 = p.x - particles[j].x, dy2 = p.y - particles[j].y;
+                    let d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                    if (d2 < 115) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 251, 251, ${0.12 - d2 / 950})`;
+                        ctx.lineWidth = 0.4;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(draw);
+        }
+        
+        window.addEventListener('resize', init);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        
+        init();
+        draw();
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('reveal');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.bento-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

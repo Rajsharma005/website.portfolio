@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Raj Sharma - Automation Services</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Pricing for AI automation and autonomous workflow services by Raj Sharma - Seed, Growth, and Enterprise tiers for Indian businesses.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols_Outlined:wght@300;400;500" rel="stylesheet">
+    
+    <style>
+        /* Base Reset & Global Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            color: #E5E5E5;
+            line-height: 1.6;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+        
+        h1, h2, h3, h4 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; color: #FFFFFF; }
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.25rem 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 251, 251, 0.05);
+        }
+        
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #00FBFB;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover { 
+            color: #00E5E5; 
+            text-shadow: 0 0 20px rgba(0, 251, 251, 0.4);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: #9CA3AF;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-links a.active {
+            color: #00FBFB;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00FBFB;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover { color: #00FBFB; }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .nav-cta {
+            background: #00FBFB;
+            color: #0A0A0A;
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .nav-cta:hover {
+            background: #00E5E5;
+            box-shadow: 0 0 20px rgba(0, 251, 251, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Page Header */
+        .page-header {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10rem 2rem 4rem;
+            text-align: center;
+        }
+        
+        .page-badge {
+            color: #00FBFB;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: fadeInDown 0.6s ease;
+        }
+        
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            animation: fadeInUp 0.6s ease 0.2s backwards;
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: #9CA3AF;
+            max-width: 45rem;
+            margin: 0 auto;
+            line-height: 1.7;
+            animation: fadeInUp 0.6s ease 0.4s backwards;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto 8rem;
+            padding: 0 2rem;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .pricing-card.reveal {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .pricing-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(0, 251, 251, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 251, 251, 0.15);
+        }
+        
+        .pricing-card.featured {
+            background: rgba(0, 251, 251, 0.02);
+            border-color: rgba(0, 251, 251, 0.3);
+            border-width: 2px;
+            position: relative;
+        }
+        
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00FBFB;
+            color: #0A0A0A;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            letter-spacing: 0.05em;
+        }
+        
+        .pricing-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #6B7280;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        
+        .pricing-name {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .pricing-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #00FBFB;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-amount span {
+            font-size: 1rem;
+            color: #6B7280;
+            font-weight: 400;
+        }
+        
+        .pricing-description {
+            color: #9CA3AF;
+            font-size: 0.9375rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .pricing-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 2rem 0;
+        }
+        
+        .pricing-features {
+            text-align: left;
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+        
+        .pricing-features li {
+            color: #9CA3AF;
+            font-size: 0.9375rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: #00FBFB;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+        
+        .pricing-cta {
+            display: block;
+            background: #00FBFB;
+            color: #0A0A0A;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-cta:hover {
+            background: #00E5E5;
+            box-shadow: 0 0 30px rgba(0, 251, 251, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .pricing-cta.secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .pricing-cta.secondary:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header { padding: 8rem 1.5rem 3rem; }
+            .pricing-grid { 
+                grid-template-columns: 1fr; 
+                gap: 2rem;
+            }
+            .pricing-card { padding: 2.5rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+    
+    <!-- Navigation Bar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="01-home.html" class="logo">RAJ SHARMA</a>
+            <div class="nav-links">
+                <a href="01-home.html">Home</a>
+                <a href="02-projects.html">Projects</a>
+                <a href="03-architect.html">About</a>
+                <a href="04-blog.html">Blog</a>
+                <a href="05-pricing.html" class="active">Pricing</a>
+                <a href="06-contact.html" class="nav-cta">Let's Talk</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Page Header -->
+    <div class="page-header">
+        <span class="page-badge">💰 TRANSPARENT PRICING</span>
+        <h1 class="page-title">
+            Choose Your <span style="color: #00FBFB;">Automation Tier</span>
+        </h1>
+        <p class="page-subtitle">
+            From single workflow automation to enterprise-grade agentic systems. All pricing in ₹ (INR) — built for Indian businesses.
+        </p>
+    </div>
+    
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="pricing-grid">
+            
+            <!-- Seed Tier -->
+            <div class="pricing-card">
+                <p class="pricing-badge">01 // SEED WORKFLOW</p>
+                <h3 class="pricing-name">Starter System</h3>
+                <div class="pricing-amount">₹15,000<span> / month</span></div>
+                <p class="pricing-description">
+                    Single custom workflow automation. Perfect for testing autonomous execution before scaling up.
+                </p>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li>1 Custom Autonomous Workflow</li>
+                    <li>Basic Alert System (Email/Telegram)</li>
+                    <li>48-hour Implementation Timeline</li>
+                    <li>Monthly Performance Report</li>
+                    <li>Slack/Email Support (24h Response)</li>
+                </ul>
+                <a href="06-contact.html" class="pricing-cta secondary">Start with Seed</a>
+            </div>
+            
+            <!-- Growth Tier (Featured) -->
+            <div class="pricing-card featured">
+                <p class="pricing-badge">02 // GROWTH ENGINE</p>
+                <h3 class="pricing-name">Growth System</h3>
+                <div class="pricing-amount">₹35,000<span> / month</span></div>
+                <p class="pricing-description">
+                    Multiple concurrent workflows with deep memory layers. Designed for scaling operations.
+                </p>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li>Up to 5 Complex Concurrent Workflows</li>
+                    <li>Deep Vector Memory Storage (RAG Hub)</li>
+                    <li>Priority Emergency Alerts (24h SLA)</li>
+                    <li>Weekly Automated Optimization Reports</li>
+                    <li>Custom React Glassmorphic Dashboard</li>
+                </ul>
+                <a href="06-contact.html" class="pricing-cta">Deploy Growth Engine</a>
+            </div>
+            
+            <!-- Enterprise Tier -->
+            <div class="pricing-card">
+                <p class="pricing-badge">03 // ENTERPRISE ARCHITECTURE</p>
+                <h3 class="pricing-name">Custom Core</h3>
+                <div class="pricing-amount">Bespoke</div>
+                <p class="pricing-description">
+                    Tailored for full-scale corporate infrastructure and multi-tenant agent networks.
+                </p>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li>Unlimited Node Workflows & Agent Instantiations</li>
+                    <li>Bare-Metal Local Infrastructure Deployment</li>
+                    <li>Dedicated Architecture Management (SLA)</li>
+                    <li>Legacy Enterprise Database Integrations</li>
+                    <li>White-Label Dashboard Customization</li>
+                </ul>
+                <a href="06-contact.html" class="pricing-cta secondary">Initiate Assessment</a>
+            </div>
+            
+        </div>
+    </section>
+    
+    <!-- Particle Canvas Script -->
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [], mouse = { x: null, y: null };
+        
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 35 : 75;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    s: Math.random() * 1.3 + 0.4,
+                    sx: Math.random() * 0.3 - 0.15,
+                    sy: Math.random() * 0.3 - 0.15
+                });
+            }
+        }
+        
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach((p, i) => {
+                p.x += p.sx; p.y += p.sy;
+                if (p.x > w || p.x < 0) p.sx *= -1;
+                if (p.y > h || p.y < 0) p.sy *= -1;
+                
+                if (mouse.x && mouse.y) {
+                    let dx = mouse.x - p.x, dy = mouse.y - p.y;
+                    let d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 130) { p.x -= dx * 0.003; p.y -= dy * 0.003; }
+                }
+                
+                ctx.fillStyle = 'rgba(0, 251, 251, 0.35)';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+                ctx.fill();
+                
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx2 = p.x - particles[j].x, dy2 = p.y - particles[j].y;
+                    let d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                    if (d2 < 115) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 251, 251, ${0.12 - d2 / 950})`;
+                        ctx.lineWidth = 0.4;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(draw);
+        }
+        
+        window.addEventListener('resize', init);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        
+        init();
+        draw();
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Pricing cards animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('reveal');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
